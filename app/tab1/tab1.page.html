@@ -1,0 +1,77 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>库存列表</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openHelp()">帮助</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="page-content">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large" style="color: #000;">库存列表</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>按名称搜索</ion-card-title>
+      <ion-card-subtitle>要求：显示全部记录，并支持按物品名称搜索。</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">物品名称关键字</ion-label>
+        <ion-input [(ngModel)]="searchName" placeholder="例如：iPad"></ion-input>
+      </ion-item>
+
+      <div class="action-row">
+        <ion-button (click)="search()">搜索</ion-button>
+        <ion-button fill="outline" (click)="loadAll()">刷新列表</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  @if (loading) {
+    <div class="loading-box">
+      <ion-spinner></ion-spinner>
+      <p>正在从接口加载数据...</p>
+    </div>
+  }
+
+  @if (!loading && errorMessage) {
+    <ion-card color="danger">
+      <ion-card-content>{{ errorMessage }}</ion-card-content>
+    </ion-card>
+  }
+
+  @if (!loading) {
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>结果数量：{{ items.length }}</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+
+    <ion-list>
+      @for (item of items; track item.item_id ?? item.item_name) {
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ item.item_name }}</ion-card-title>
+            <ion-card-subtitle>
+              编号：{{ item.item_id ?? '-' }}
+              <ion-badge color="primary">{{ toCategoryLabel(item.category) }}</ion-badge>
+              <ion-badge color="medium">{{ toStockStatusLabel(item.stock_status) }}</ion-badge>
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <p>数量：{{ item.quantity }}</p>
+            <p>价格：{{ item.price }}</p>
+            <p>供应商：{{ item.supplier_name }}</p>
+            <p>推荐：{{ toFeaturedLabel(item.featured_item) }}</p>
+            <p>备注：{{ item.special_note || '无' }}</p>
+          </ion-card-content>
+        </ion-card>
+      }
+    </ion-list>
+  }
+</ion-content>

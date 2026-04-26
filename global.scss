@@ -1,0 +1,74 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+
+ion-app {
+	background: linear-gradient(135deg, #fef3c7 0%, #e0f2fe 55%, #f3f4f6 100%);
+	color: #111827;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+ion-content {
+	--background: transparent;
+}
+
+ion-content::part(scroll) {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+ion-toolbar {
+	--background: #111827;
+	--color: #f9fafb;
+}
+
+ion-card {
+	border: 1px solid #d1d5db;
+	border-radius: 14px;
+	box-shadow: none;
+	background: #ffffff;
+}
+
+ion-item {
+	--background: transparent;
+	--border-color: #e5e7eb;
+}
+
+ion-button {
+	--border-radius: 8px;
+	text-transform: none;
+	font-weight: 600;
+}

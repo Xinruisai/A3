@@ -1,0 +1,132 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>库存管理</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openHelp()">帮助</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="page-content">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large" style="color: #000;">库存管理</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>新增或编辑物品</ion-card-title>
+      <ion-card-subtitle>提交前会校验必填项与数字范围。</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">物品名称 *</ion-label>
+        <ion-input [(ngModel)]="form.item_name" placeholder="名称需唯一"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">分类 *</ion-label>
+        <ion-select [(ngModel)]="form.category" interface="popover">
+          @for (category of categories; track category) {
+            <ion-select-option [value]="category">{{ toCategoryLabel(category) }}</ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">数量 *</ion-label>
+        <ion-input [(ngModel)]="form.quantity" type="number" min="0"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">价格 *</ion-label>
+        <ion-input [(ngModel)]="form.price" type="number" min="0"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">供应商 *</ion-label>
+        <ion-input [(ngModel)]="form.supplier_name" placeholder="请输入供应商"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">库存状态 *</ion-label>
+        <ion-select [(ngModel)]="form.stock_status" interface="popover">
+          @for (state of stockStates; track state) {
+            <ion-select-option [value]="state">{{ toStockStatusLabel(state) }}</ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox [(ngModel)]="form.featured_item">推荐商品</ion-checkbox>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">备注</ion-label>
+        <ion-textarea [(ngModel)]="form.special_note" autoGrow="true"></ion-textarea>
+      </ion-item>
+
+      <div class="action-row">
+        <ion-button (click)="addItem()">新增记录</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>按名称更新</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">目标名称</ion-label>
+        <ion-input [(ngModel)]="updateTargetName" placeholder="输入已有名称"></ion-input>
+      </ion-item>
+      <div class="action-row">
+        <ion-button fill="outline" (click)="loadByNameForEdit()">载入表单</ion-button>
+        <ion-button color="medium" (click)="updateByName()">更新记录</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>按名称删除</ion-card-title>
+      <ion-card-subtitle>规则：Laptop 不能删除。</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">目标名称</ion-label>
+        <ion-input [(ngModel)]="deleteTargetName" placeholder="输入要删除的名称"></ion-input>
+      </ion-item>
+      <div class="action-row">
+        <ion-button color="danger" (click)="deleteByName()">删除记录</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>推荐商品列表</ion-card-title>
+      <ion-card-subtitle>要求：展示推荐商品清单。</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        @for (item of featuredItems; track item.item_id ?? item.item_name) {
+          <ion-item>
+            <ion-label>
+              <h3>{{ item.item_name }}</h3>
+              <p>{{ toCategoryLabel(item.category) }} | {{ toStockStatusLabel(item.stock_status) }} | {{ item.price }}</p>
+            </ion-label>
+          </ion-item>
+        }
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-text [color]="noticeColor">{{ notice }}</ion-text>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
